@@ -10,10 +10,10 @@ const siteConfig = {
 const page = document.body.dataset.page || "";
 
 const navItems = [
-  { key: "chair", href: "/chair/", label: "Стульчик" },
-  { key: "travel-seat", href: "/travel-seat/", label: "Чемодан" },
-  { key: "about", href: "/about/", label: "О бренде" },
-  { key: "delivery", href: "/delivery/", label: "Доставка" }
+  { key: "chair", href: "chair/", label: "Стульчик" },
+  { key: "travel-seat", href: "travel-seat/", label: "Чемодан" },
+  { key: "about", href: "about/", label: "О бренде" },
+  { key: "delivery", href: "delivery/", label: "Доставка" }
 ];
 
 function navMarkup(className = "nav-link") {
@@ -37,9 +37,9 @@ class SiteHeader extends HTMLElement {
 
       <header class="site-header site-header--sticky">
         <div class="container header-inner">
-          <a class="brand" href="/" aria-label="MIKISSKIDS — главная">
+          <a class="brand" href="" aria-label="MIKISSKIDS — главная">
             <img
-              src="/assets/brand/logo-full.svg"
+              src="assets/brand/logo-full.svg"
               alt="MIKISSKIDS"
             >
           </a>
@@ -94,22 +94,22 @@ class SiteFooter extends HTMLElement {
     const socialItems = [
       {
         url: siteConfig.telegramPersonal,
-        icon: "/assets/icons/social/telegram.svg",
+        icon: "assets/icons/social/telegram.svg",
         label: "Написать в Telegram"
       },
       {
         url: siteConfig.telegramChannel,
-        icon: "/assets/icons/social/telegram.svg",
+        icon: "assets/icons/social/telegram.svg",
         label: "Канал в Telegram"
       },
       {
         url: siteConfig.maxPersonal,
-        icon: "/assets/icons/social/max.svg",
+        icon: "assets/icons/social/max.svg",
         label: "Написать в MAX"
       },
       {
         url: siteConfig.maxChannel,
-        icon: "/assets/icons/social/max.svg",
+        icon: "assets/icons/social/max.svg",
         label: "Канал в MAX"
       }
     ].filter((item) => item.url);
@@ -151,10 +151,10 @@ class SiteFooter extends HTMLElement {
             <div>
               <h2 class="footer-title">Разделы</h2>
               <div class="footer-links">
-                <a href="/chair/">Стульчик</a>
-                <a href="/travel-seat/">Чемодан</a>
-                <a href="/about/">О бренде</a>
-                <a href="/delivery/">Доставка и оплата</a>
+                <a href="chair/">Стульчик</a>
+                <a href="travel-seat/">Чемодан</a>
+                <a href="about/">О бренде</a>
+                <a href="delivery/">Доставка и оплата</a>
               </div>
             </div>
 
@@ -165,9 +165,9 @@ class SiteFooter extends HTMLElement {
                 <a href="mailto:ipmalyshevaekaterinasergeevna@yandex.ru">
                   Написать на email
                 </a>
-                <a href="/legal/offer/">Публичная оферта</a>
-                <a href="/legal/privacy/">Персональные данные</a>
-                <a href="/legal/agreement/">Соглашение</a>
+                <a href="legal/offer/">Публичная оферта</a>
+                <a href="legal/privacy/">Персональные данные</a>
+                <a href="legal/agreement/">Соглашение</a>
               </div>
             </div>
           </div>
@@ -281,7 +281,7 @@ class OrderDialog extends HTMLElement {
                 <input type="checkbox" name="offer" required>
                 <span>
                   Я принимаю условия
-                  <a href="/legal/offer/" target="_blank">
+                  <a href="legal/offer/" target="_blank">
                     публичной оферты
                   </a>.
                 </span>
@@ -291,7 +291,7 @@ class OrderDialog extends HTMLElement {
                 <input type="checkbox" name="privacy" required>
                 <span>
                   Я даю
-                  <a href="/legal/consent/" target="_blank">
+                  <a href="legal/consent/" target="_blank">
                     согласие на обработку персональных данных
                   </a>.
                 </span>
