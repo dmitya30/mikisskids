@@ -1,10 +1,8 @@
 "use strict";
 
 const siteConfig = {
-  telegramPersonal: "",
-  telegramChannel: "",
-  maxPersonal: "",
-  maxChannel: ""
+  telegramPersonal: "https://t.me/mikisskinds",
+  maxPersonal: ""
 };
 
 const page = document.body.dataset.page || "";
@@ -91,49 +89,55 @@ class SiteHeader extends HTMLElement {
 
 class SiteFooter extends HTMLElement {
   connectedCallback() {
-    const socialItems = [
-      {
-        url: siteConfig.telegramPersonal,
-        icon: "assets/icons/social/telegram.svg",
-        label: "Написать в Telegram"
-      },
-      {
-        url: siteConfig.telegramChannel,
-        icon: "assets/icons/social/telegram.svg",
-        label: "Канал в Telegram"
-      },
-      {
-        url: siteConfig.maxPersonal,
-        icon: "assets/icons/social/max.svg",
-        label: "Написать в MAX"
-      },
-      {
-        url: siteConfig.maxChannel,
-        icon: "assets/icons/social/max.svg",
-        label: "Канал в MAX"
-      }
-    ].filter((item) => item.url);
-
-    const socialMarkup = socialItems.length
+    const telegramMarkup = siteConfig.telegramPersonal
       ? `
-        <div class="social-links">
-          ${socialItems
-            .map(
-              (item) => `
-                <a
-                  class="social-link"
-                  href="${item.url}"
-                  aria-label="${item.label}"
-                  rel="noopener noreferrer"
-                >
-                  <img src="${item.icon}" alt="">
-                </a>
-              `
-            )
-            .join("")}
-        </div>
+        <a
+          class="social-link"
+          href="${siteConfig.telegramPersonal}"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Написать MIKISSKIDS в Telegram"
+        >
+          <img
+            src="assets/icons/social/telegram.svg"
+            alt=""
+            aria-hidden="true"
+          >
+          <span>Telegram</span>
+        </a>
       `
       : "";
+
+    const maxMarkup = siteConfig.maxPersonal
+      ? `
+        <a
+          class="social-link"
+          href="${siteConfig.maxPersonal}"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Написать MIKISSKIDS в MAX"
+        >
+          <img
+            src="assets/icons/social/max.svg"
+            alt=""
+            aria-hidden="true"
+          >
+          <span>MAX</span>
+        </a>
+      `
+      : `
+        <span
+          class="social-link social-link--disabled"
+          aria-label="MAX — ссылка появится позже"
+        >
+          <img
+            src="assets/icons/social/max.svg"
+            alt=""
+            aria-hidden="true"
+          >
+          <span>MAX — скоро</span>
+        </span>
+      `;
 
     this.innerHTML = `
       <footer class="site-footer">
@@ -142,10 +146,14 @@ class SiteFooter extends HTMLElement {
             <div>
               <span class="footer-brand">MIKISSKIDS</span>
               <p class="footer-copy">
-                Вещи для детства, продуманные как часть дома
-                и семейного путешествия.
+                Продуманные предметы высокого класса для дома
+                и семейных путешествий.
               </p>
-              ${socialMarkup}
+
+              <div class="social-links" aria-label="Мессенджеры">
+                ${telegramMarkup}
+                ${maxMarkup}
+              </div>
             </div>
 
             <div>
@@ -428,3 +436,28 @@ document.querySelectorAll(".reveal").forEach((element) => {
     element.classList.add("is-visible");
   }
 });
+
+
+const ambientVideos = document.querySelectorAll("[data-ambient-video]");
+const reducedMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)"
+);
+
+function syncAmbientVideos() {
+  ambientVideos.forEach((video) => {
+    video.muted = true;
+
+    if (reducedMotion.matches || document.hidden) {
+      video.pause();
+      return;
+    }
+
+    video.play().catch(() => {
+      // The poster remains visible when a browser blocks autoplay.
+    });
+  });
+}
+
+syncAmbientVideos();
+document.addEventListener("visibilitychange", syncAmbientVideos);
+reducedMotion.addEventListener?.("change", syncAmbientVideos);
