@@ -35,7 +35,7 @@ class SiteHeader extends HTMLElement {
 
       <header class="site-header site-header--sticky">
         <div class="container header-inner">
-          <a class="brand" href="" aria-label="MIKISSKIDS — главная">
+          <a class="brand" href="" aria-label="MIKISSKIDS - главная">
             <img
               src="assets/brand/logo-full.svg"
               alt="MIKISSKIDS"
@@ -128,14 +128,14 @@ class SiteFooter extends HTMLElement {
       : `
         <span
           class="social-link social-link--disabled"
-          aria-label="MAX — ссылка появится позже"
+          aria-label="MAX - ссылка появится позже"
         >
           <img
             src="assets/icons/social/max.svg"
             alt=""
             aria-hidden="true"
           >
-          <span>MAX — скоро</span>
+          <span>MAX - скоро</span>
         </span>
       `;
 
@@ -224,10 +224,10 @@ class OrderDialog extends HTMLElement {
                 <select id="product" name="product" required>
                   <option value="">Выберите товар</option>
                   <option value="chair">
-                    Стульчик-трансформер — 35 000 ₽
+                    Стульчик-трансформер - 35 000 ₽
                   </option>
                   <option value="travel-seat">
-                    Чемодан-кресло — 50 000 ₽
+                    Чемодан-кресло - 50 000 ₽
                   </option>
                 </select>
               </div>
@@ -356,8 +356,8 @@ const orderForm = document.querySelector("#order-form");
 const formStatus = document.querySelector(".form-status");
 
 const productNames = {
-  chair: "Стульчик-трансформер — 35 000 ₽",
-  "travel-seat": "Чемодан-кресло — 50 000 ₽"
+  chair: "Стульчик-трансформер - 35 000 ₽",
+  "travel-seat": "Чемодан-кресло - 50 000 ₽"
 };
 
 function openOrderDialog(product = "") {
