@@ -261,6 +261,7 @@ button {
 
 .button:focus-visible,
 .icon-button:focus-visible,
+.menu-toggle:focus-visible,
 .nav-link:focus-visible,
 input:focus-visible,
 select:focus-visible,
@@ -357,22 +358,52 @@ summary:focus-visible {
 
 .menu-toggle {
   display: none;
-  width: 46px;
+  min-width: 96px;
   height: 46px;
-  padding: 0;
-  border: 1px solid var(--line);
-  border-radius: 50%;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 15px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--text);
   background: transparent;
   cursor: pointer;
 }
 
-.menu-toggle span {
+.menu-toggle-text {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.menu-toggle-icon {
+  display: grid;
+  width: 20px;
+  gap: 4px;
+}
+
+.menu-toggle-icon span {
   display: block;
-  width: 18px;
-  height: 1px;
-  margin: 5px auto;
-  background: var(--text);
-  transition: transform 180ms ease;
+  width: 20px;
+  height: 2px;
+  margin: 0;
+  background: currentColor;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.menu-open .menu-toggle-icon span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.menu-open .menu-toggle-icon span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-open .menu-toggle-icon span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
 }
 
 .mobile-menu {
@@ -965,17 +996,21 @@ summary:focus-visible {
   }
 
   .menu-toggle {
-    display: block;
+    display: inline-flex;
   }
 
   .mobile-menu {
+    display: block;
     position: fixed;
     inset: 77px 0 0;
     z-index: 49;
     padding: 42px 24px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
     background: var(--bg);
     visibility: hidden;
     opacity: 0;
+    pointer-events: none;
     transform: translateY(-12px);
     transition:
       visibility 180ms,
@@ -986,6 +1021,7 @@ summary:focus-visible {
   .menu-open .mobile-menu {
     visibility: visible;
     opacity: 1;
+    pointer-events: auto;
     transform: none;
   }
 
@@ -1006,6 +1042,7 @@ summary:focus-visible {
   .mobile-menu-contact {
     margin-top: 40px;
     color: var(--muted);
+    overflow-wrap: anywhere;
   }
 
   .hero {

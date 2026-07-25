@@ -65,8 +65,14 @@ class SiteHeader extends HTMLElement {
               aria-expanded="false"
               aria-controls="mobile-menu"
             >
-              <span></span>
-              <span></span>
+              <span class="menu-toggle-text" aria-hidden="true">
+                Меню
+              </span>
+              <span class="menu-toggle-icon" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
             </button>
           </div>
         </div>
