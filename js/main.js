@@ -1,7 +1,7 @@
 "use strict";
 
 const siteConfig = {
-  telegramPersonal: "https://t.me/mikisskinds",
+  telegramPersonal: "https://t.me/mikisskids",
   maxPersonal: ""
 };
 
