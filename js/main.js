@@ -73,6 +73,8 @@ class SiteHeader extends HTMLElement {
           <a class="brand" href="" aria-label="MIKISSKIDS - главная">
             <img
               src="assets/brand/logo-full.svg"
+              width="656"
+              height="354"
               alt="MIKISSKIDS"
             >
           </a>
@@ -141,6 +143,9 @@ class SiteFooter extends HTMLElement {
         >
           <img
             src="assets/icons/social/telegram.svg"
+            width="50"
+            height="50"
+            loading="lazy"
             alt=""
             aria-hidden="true"
           >
@@ -160,6 +165,9 @@ class SiteFooter extends HTMLElement {
         >
           <img
             src="assets/icons/social/max.svg"
+            width="50"
+            height="50"
+            loading="lazy"
             alt=""
             aria-hidden="true"
           >
@@ -173,6 +181,9 @@ class SiteFooter extends HTMLElement {
         >
           <img
             src="assets/icons/social/max.svg"
+            width="50"
+            height="50"
+            loading="lazy"
             alt=""
             aria-hidden="true"
           >
