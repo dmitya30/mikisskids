@@ -84,8 +84,8 @@ class SiteHeader extends HTMLElement {
         </nav>
         <div class="mobile-menu-contact">
           <a href="tel:+79030107646">+7 (903) 010-76-46</a><br>
-          <a href="mailto:ipmalyshevaekaterinasergeevna@yandex.ru">
-            ipmalyshevaekaterinasergeevna@yandex.ru
+          <a href="mailto:welcome@mikisskids.ru">
+            welcome@mikisskids.ru
           </a>
         </div>
       </div>
@@ -176,7 +176,7 @@ class SiteFooter extends HTMLElement {
               <h2 class="footer-title">Контакты</h2>
               <div class="footer-links">
                 <a href="tel:+79030107646">+7 (903) 010-76-46</a>
-                <a href="mailto:ipmalyshevaekaterinasergeevna@yandex.ru">
+                <a href="mailto:welcome@mikisskids.ru">
                   Написать на email
                 </a>
                 <a href="legal/offer/">Публичная оферта</a>
