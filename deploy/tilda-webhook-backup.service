@@ -14,5 +14,5 @@ NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
 ProtectHome=true
-ReadOnlyPaths=/var/lib/mikisskids
+ReadWritePaths=/var/lib/mikisskids
 ReadWritePaths=/var/backups/mikisskids
