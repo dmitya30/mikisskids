@@ -5,9 +5,9 @@ Wants=network.target
 
 [Service]
 Type=simple
-User=mikisskids-webhook
-Group=mikisskids-webhook
-WorkingDirectory=/opt/mikisskids/current
+User=mikiss
+Group=mikiss
+WorkingDirectory=/var/www/mikiss/data/repos/mikisskids
 EnvironmentFile=/etc/mikisskids/tilda-webhook.env
 ExecStart=/usr/bin/python3 -m backend.tilda_webhook.app
 Restart=on-failure

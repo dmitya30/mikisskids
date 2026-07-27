@@ -4,10 +4,10 @@ After=tilda-webhook.service
 
 [Service]
 Type=oneshot
-User=mikisskids-webhook
-Group=mikisskids-webhook
+User=mikiss
+Group=mikiss
 EnvironmentFile=/etc/mikisskids/tilda-webhook.env
-ExecStart=/opt/mikisskids/current/scripts/backup-orders-db
+ExecStart=/var/www/mikiss/data/repos/mikisskids/scripts/backup-orders-db
 UMask=0077
 
 NoNewPrivileges=true

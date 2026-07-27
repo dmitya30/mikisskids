@@ -59,10 +59,10 @@ Tilda передаёт `tranid` как уникальный Lead ID и `formid` 
 
 ## Production-пути
 
-    code:     /opt/mikisskids/current
+    code:     /var/www/mikiss/data/repos/mikisskids
     env:      /etc/mikisskids/tilda-webhook.env
     database: /var/lib/mikisskids/orders.sqlite3
-    backup:   /var/backups/mikisskids
+    backup:   /var/backups/mikisskids/orders
     service:  tilda-webhook.service
     timer:    tilda-webhook-backup.timer
 

@@ -11,7 +11,7 @@
 - Репозиторий: `dmitya30/mikisskids`.
 - Локальная папка: `~/projects/mikisskids`.
 - Ветка: `main`.
-- Последний проверенный базовый коммит: `3fdc93b5`.
+- Последний проверенный базовый коммит: `cbe4f29f`.
 - VPS: `5.183.190.117`.
 - Команда будущего деплоя: `sudo /usr/local/sbin/deploy-mikisskids`.
 - На VPS production пока не развёрнут.
@@ -134,3 +134,23 @@ Webhook подключается к ST100. В настройках платёж�
 - тестовая реальная оплата;
 - проверка поступившего чека;
 - окончательное переключение DNS.
+
+## Проверенный контекст VPS
+
+Аудит выполнен 27.07.2026.
+
+- Ubuntu 24.04 LTS.
+- Python 3.12.3.
+- SQLite 3.45.1.
+- Nginx 1.30.4 под управлением FASTPANEL.
+- Пользователь сайта: `mikiss`.
+- Репозиторий: `/var/www/mikiss/data/repos/mikisskids`.
+- Webroot: `/var/www/mikiss/data/www/mikisskids.ru`.
+- FASTPANEL include:
+  `/etc/nginx/fastpanel2-sites/mikiss/mikisskids.ru.includes`.
+- Существующий deploy-скрипт:
+  `/usr/local/sbin/deploy-mikisskids`.
+- Публичные порты: 80 и 443.
+- Webhook будет слушать только `127.0.0.1:8091`.
+- Репозиторий на VPS пока не обновлён до webhook-коммита.
+- Production-сайт после юридических изменений ещё не развёрнут.
