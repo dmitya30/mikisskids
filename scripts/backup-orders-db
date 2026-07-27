@@ -1,0 +1,56 @@
+#!/bin/sh
+set -eu
+
+: "${DB_PATH:=/var/lib/mikisskids/orders.sqlite3}"
+: "${BACKUP_DIR:=/var/backups/mikisskids}"
+: "${BACKUP_RETENTION_DAYS:=30}"
+
+if [ ! -f "$DB_PATH" ]; then
+    echo "Database not found" >&2
+    exit 1
+fi
+
+mkdir -p "$BACKUP_DIR"
+umask 077
+
+timestamp="$(date -u +%Y%m%dT%H%M%SZ)"
+target="$BACKUP_DIR/orders-$timestamp.sqlite3"
+compressed="$target.gz"
+
+python3 - "$DB_PATH" "$target" <<'__SQLITE_BACKUP_SCRIPT__'
+import sqlite3
+import sys
+
+source_path, target_path = sys.argv[1], sys.argv[2]
+
+source = sqlite3.connect(
+    f"file:{source_path}?mode=ro",
+    uri=True,
+)
+target = sqlite3.connect(target_path)
+
+with target:
+    source.backup(target)
+
+result = target.execute(
+    "PRAGMA integrity_check"
+).fetchone()[0]
+
+source.close()
+target.close()
+
+if result != "ok":
+    raise SystemExit(
+        "Backup integrity check failed"
+    )
+__SQLITE_BACKUP_SCRIPT__
+
+gzip -9 "$target"
+
+find "$BACKUP_DIR" \
+    -type f \
+    -name 'orders-*.sqlite3.gz' \
+    -mtime "+$BACKUP_RETENTION_DAYS" \
+    -delete
+
+echo "$compressed"

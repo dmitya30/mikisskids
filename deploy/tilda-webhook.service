@@ -1,0 +1,29 @@
+[Unit]
+Description=MIKISSKIDS Tilda webhook receiver
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=mikisskids-webhook
+Group=mikisskids-webhook
+WorkingDirectory=/opt/mikisskids/current
+EnvironmentFile=/etc/mikisskids/tilda-webhook.env
+ExecStart=/usr/bin/python3 -m backend.tilda_webhook.app
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=15
+UMask=0077
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/mikisskids
+MemoryDenyWriteExecute=true
+RestrictSUIDSGID=true
+LockPersonality=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+
+[Install]
+WantedBy=multi-user.target
