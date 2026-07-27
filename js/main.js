@@ -5,6 +5,41 @@ const siteConfig = {
   maxPersonal: ""
 };
 
+const checkoutBaseUrl = "https://pay.mikisskids.ru/";
+
+function checkoutUrl(product = "") {
+  const url = new URL(checkoutBaseUrl);
+
+  if (product) {
+    url.searchParams.set("product", product);
+  }
+
+  return url.toString();
+}
+
+document.addEventListener(
+  "click",
+  (event) => {
+    if (!(event.target instanceof Element)) {
+      return;
+    }
+
+    const trigger = event.target.closest("[data-open-order]");
+
+    if (!trigger) {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopImmediatePropagation();
+
+    window.location.assign(
+      checkoutUrl(trigger.dataset.product || "")
+    );
+  },
+  true
+);
+
 const page = document.body.dataset.page || "";
 
 const navItems = [
