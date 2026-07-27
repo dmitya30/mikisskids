@@ -14,7 +14,7 @@
 - Последний проверенный базовый коммит: `0fa08ef`.
 - VPS: `5.183.190.117`.
 - Команда будущего деплоя: `sudo /usr/local/sbin/deploy-mikisskids`.
-- На VPS production пока не развёрнут.
+- Статический production-сайт развёрнут в webroot VPS.
 - Основной домен пока обслуживается Tilda.
 - Текущие NS: `ns1.tildadns.com`, `ns2.tildadns.com`.
 - Почта: Яндекс, рабочий адрес `welcome@mikisskids.ru`.
@@ -177,3 +177,13 @@ Webhook подключается к ST100. В настройках платёж�
 Подключение Tilda остаётся заблокированным до появления HTTPS на домене,
 который направлен на VPS. До этого реальный webhook URL в Tilda
 не указывать.
+
+
+## Статический сайт на VPS
+
+- 27.07.2026 выполнен production-деплой коммита `a517b93`.
+- Webroot: `/var/www/mikiss/data/www/mikisskids.ru`.
+- Проверен ответ Nginx `HTTP 200`.
+- Проверено наличие `index.html`, CSS и JavaScript.
+- Каталоги `backend`, `deploy`, `docs` и `scripts` в webroot отсутствуют.
+- Публичный DNS пока продолжает вести основной домен на Tilda.
