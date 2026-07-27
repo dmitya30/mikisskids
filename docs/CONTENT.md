@@ -332,7 +332,7 @@ MIKISSKIDS работает с привычными детскими предм�
 ## Поддержка
 
 - телефон: +7 (903) 010-76-46;
-- email: ipmalyshevaekaterinasergeevna@yandex.ru.
+- email: welcome@mikisskids.ru.
 
 ---
 
@@ -347,7 +347,7 @@ MIKISSKIDS
 Москва
 
 +7 (903) 010-76-46
-ipmalyshevaekaterinasergeevna@yandex.ru
+welcome@mikisskids.ru
 ```
 
 Ссылки:
