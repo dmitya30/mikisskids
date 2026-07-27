@@ -5,6 +5,7 @@ from pathlib import Path
 from urllib.parse import urlencode
 
 from backend.tilda_webhook.app import (
+    is_tilda_test_payload,
     parse_form_body,
     sanitized_payload,
     save_order,
@@ -132,6 +133,20 @@ class WebhookTests(unittest.TestCase):
                 self.db_path,
                 payload,
             )
+
+    def test_tilda_connection_payload_is_recognized(self):
+        self.assertTrue(
+            is_tilda_test_payload({"test": "test"})
+        )
+        self.assertFalse(
+            is_tilda_test_payload({
+                "test": "test",
+                "tranid": "unexpected",
+            })
+        )
+        self.assertFalse(
+            is_tilda_test_payload({"test": "other"})
+        )
 
     def test_sensitive_fields_are_removed(self):
         payload = {

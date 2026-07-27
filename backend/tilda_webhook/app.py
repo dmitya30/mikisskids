@@ -189,6 +189,15 @@ def is_sensitive_key(key: str) -> bool:
     )
 
 
+def is_tilda_test_payload(
+    payload: dict[str, object],
+) -> bool:
+    return (
+        set(payload) == {"test"}
+        and first_value(payload, "test").casefold() == "test"
+    )
+
+
 def sanitized_payload(
     payload: dict[str, object],
 ) -> dict[str, object]:
@@ -494,6 +503,11 @@ class WebhookHandler(BaseHTTPRequestHandler):
 
         try:
             payload = parse_form_body(body)
+
+            if is_tilda_test_payload(payload):
+                self.send_plain(200, "OK")
+                return
+
             source_url = self.headers.get("Referer", "")
             save_order(
                 get_db_path(),
