@@ -1,6 +1,6 @@
 # Tilda Webhook и база заказов
 
-**Статус:** код подготовлен, на VPS не развёрнут  
+**Статус:** развёрнут и локально проверен на VPS  
 **Дата:** 27.07.2026
 
 ## Назначение
@@ -77,3 +77,17 @@ Tilda передаёт `tranid` как уникальный Lead ID и `formid` 
 Документация Tilda:
 
 https://help-ru.tilda.cc/forms/webhook
+
+## Состояние production-компонентов
+
+- webhook service: active;
+- Nginx route: установлен;
+- SQLite: инициализирован;
+- backup timer: enabled/active;
+- тест восстановления: пройден;
+- Tilda WebHook: ещё не подключён;
+- публичный HTTPS endpoint: ожидает переноса домена.
+
+При первой настройке Nginx тестовый URL попал в access log. Секрет был
+сразу заменён, записи удалены, после исправления проверено отсутствие
+webhook-путей в access/error logs.

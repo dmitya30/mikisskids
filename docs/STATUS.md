@@ -11,7 +11,7 @@
 - Репозиторий: `dmitya30/mikisskids`.
 - Локальная папка: `~/projects/mikisskids`.
 - Ветка: `main`.
-- Последний проверенный базовый коммит: `cbe4f29f`.
+- Последний проверенный базовый коммит: `0fa08ef`.
 - VPS: `5.183.190.117`.
 - Команда будущего деплоя: `sudo /usr/local/sbin/deploy-mikisskids`.
 - На VPS production пока не развёрнут.
@@ -109,7 +109,7 @@ https://pay.mikisskids.ru/payment-mvp
 
 ## Текущий технический блок
 
-Минимальный приёмник Tilda Webhook подготовлен в репозитории, но ещё не развёрнут на VPS:
+Минимальный приёмник Tilda Webhook развёрнут и проверен на VPS:
 
 - HTTPS endpoint с секретным непредсказуемым путём;
 - приём `application/x-www-form-urlencoded`;
@@ -154,3 +154,26 @@ Webhook подключается к ST100. В настройках платёж�
 - Webhook будет слушать только `127.0.0.1:8091`.
 - Репозиторий на VPS пока не обновлён до webhook-коммита.
 - Production-сайт после юридических изменений ещё не развёрнут.
+
+## Состояние webhook на VPS
+
+Развёртывание завершено 27.07.2026.
+
+- `tilda-webhook.service` включён и работает.
+- Приложение слушает только `127.0.0.1:8091`.
+- Nginx proxy подключён через FASTPANEL include.
+- Секрет хранится в `/etc/mikisskids/tilda-webhook.env`.
+- SQLite находится в `/var/lib/mikisskids/orders.sqlite3`.
+- Backup timer включён и работает.
+- Резервные копии находятся в
+  `/var/backups/mikisskids/orders`.
+- Проверено восстановление backup и `PRAGMA integrity_check`.
+- Проверены два одинаковых POST-запроса через Nginx.
+- Повторный `tranid` не создаёт вторую запись.
+- Webhook URL не записывается в access/error logs.
+- Тестовые записи удалены.
+- Реальных данных покупателей в БД пока нет.
+
+Подключение Tilda остаётся заблокированным до появления HTTPS на домене,
+который направлен на VPS. До этого реальный webhook URL в Tilda
+не указывать.
