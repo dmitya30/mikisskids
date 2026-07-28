@@ -368,12 +368,12 @@ else:
 
 delivery_content_requirements = {
     Path("index.html"): (
-        "Доставка по России включена в стоимость.",
+        "По Москве и Московской области",
     ),
     Path("chair/index.html"): (
         "https://schema.org/InStock",
         "<strong>В наличии.</strong>",
-        "5 рабочих дней после оплаты",
+        "1 рабочего дня после оплаты",
     ),
     Path("travel-seat/index.html"): (
         "https://schema.org/PreOrder",
