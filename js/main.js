@@ -33,9 +33,19 @@ document.addEventListener(
     event.preventDefault();
     event.stopImmediatePropagation();
 
-    window.location.assign(
-      checkoutUrl(trigger.dataset.product || "")
-    );
+    const product = trigger.dataset.product || "";
+    const destination = checkoutUrl(product);
+    const navigate = () => window.location.assign(destination);
+
+    if (window.MikissConsent) {
+      window.MikissConsent.reachGoal(
+        "checkout_start",
+        { product: product || "unspecified" },
+        navigate
+      );
+    } else {
+      navigate();
+    }
   },
   true
 );
@@ -228,6 +238,11 @@ class SiteFooter extends HTMLElement {
                 <a href="legal/offer/">Публичная оферта</a>
                 <a href="legal/privacy/">Персональные данные</a>
                 <a href="legal/agreement/">Соглашение</a>
+                <button
+                  class="footer-cookie-settings"
+                  type="button"
+                  data-cookie-settings
+                >Настройки cookies</button>
               </div>
             </div>
           </div>
