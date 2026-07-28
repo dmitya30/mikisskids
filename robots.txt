@@ -1,4 +1,5 @@
 User-agent: *
 Disallow: /
+Allow: /sitemap.xml
 
 Sitemap: https://mikisskids.ru/sitemap.xml

@@ -306,6 +306,52 @@ for index, tag in enumerate(js_image_tags, start=1):
             f"js/main.js: generated image dimensions missing: {src}"
         )
 
+
+robots_path = Path("robots.txt")
+
+if not robots_path.is_file():
+    errors.append("robots.txt: file is missing")
+else:
+    robots_text = robots_path.read_text(encoding="utf-8")
+
+    required_robots_directives = (
+        "User-agent: *",
+        "Disallow: /",
+        "Allow: /sitemap.xml",
+        "Sitemap: https://mikisskids.ru/sitemap.xml",
+    )
+
+    for directive in required_robots_directives:
+        if directive not in robots_text:
+            errors.append(
+                f"robots.txt: missing directive: {directive}"
+            )
+
+sitemap_path = Path("sitemap.xml")
+
+if not sitemap_path.is_file():
+    errors.append("sitemap.xml: file is missing")
+else:
+    sitemap_text = sitemap_path.read_text(encoding="utf-8")
+
+    expected_sitemap_urls = (
+        "https://mikisskids.ru/",
+        "https://mikisskids.ru/chair/",
+        "https://mikisskids.ru/travel-seat/",
+        "https://mikisskids.ru/about/",
+        "https://mikisskids.ru/delivery/",
+    )
+
+    for url in expected_sitemap_urls:
+        if f"<loc>{url}</loc>" not in sitemap_text:
+            errors.append(f"sitemap.xml: missing URL: {url}")
+
+    if sitemap_text.count("<lastmod>2026-07-28</lastmod>") != 5:
+        errors.append(
+            "sitemap.xml: expected five lastmod values for 2026-07-28"
+        )
+
+
 if errors:
     print("SEO audit errors:", file=sys.stderr)
 
