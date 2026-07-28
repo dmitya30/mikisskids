@@ -17,12 +17,15 @@ targets = {
         "price": 35000,
         "currency": "RUB",
         "url": "https://mikisskids.ru/chair/",
+        "availability": "https://schema.org/InStock",
     },
     Path("travel-seat/index.html"): {
         "types": {"Organization", "Product"},
         "price": 50000,
         "currency": "RUB",
         "url": "https://mikisskids.ru/travel-seat/",
+        "availability": "https://schema.org/PreOrder",
+        "availability_starts": "2026-08-17",
     },
 }
 
@@ -97,6 +100,7 @@ for path, expected in targets.items():
         "price": expected["price"],
         "priceCurrency": expected["currency"],
         "url": expected["url"],
+        "availability": expected["availability"],
     }
 
     for key, expected_value in checks.items():
@@ -106,6 +110,15 @@ for path, expected in targets.items():
             errors.append(
                 f"{path}: offers.{key}={actual!r}, "
                 f"expected {expected_value!r}"
+            )
+
+    if "availability_starts" in expected:
+        actual_start = offers.get("availabilityStarts")
+
+        if actual_start != expected["availability_starts"]:
+            errors.append(
+                f"{path}: offers.availabilityStarts={actual_start!r}, "
+                f"expected {expected['availability_starts']!r}"
             )
 
     for field in ("name", "description", "image", "brand"):
@@ -350,6 +363,48 @@ else:
         errors.append(
             "sitemap.xml: expected five lastmod values for 2026-07-28"
         )
+
+
+
+delivery_content_requirements = {
+    Path("index.html"): (
+        "Доставка по России включена в стоимость.",
+    ),
+    Path("chair/index.html"): (
+        "https://schema.org/InStock",
+        "<strong>В наличии.</strong>",
+        "5 рабочих дней после оплаты",
+    ),
+    Path("travel-seat/index.html"): (
+        "https://schema.org/PreOrder",
+        '"availabilityStarts": "2026-08-17"',
+        "<strong>Предзаказ.</strong>",
+        "до 17 августа 2026 года",
+    ),
+    Path("delivery/index.html"): (
+        "Доставка включена в стоимость товара",
+        "в течение одного",
+        "рабочего дня",
+        "17 августа 2026 года",
+    ),
+    Path("legal/offer/index.html"): (
+        "Редакция от 28 июля 2026 года.",
+        "Доставка осуществляется по России.",
+        "не позднее 17 августа 2026 года",
+        "в течение одного",
+        "рабочего дня",
+    ),
+}
+
+for content_path, fragments in delivery_content_requirements.items():
+    content_text = content_path.read_text(encoding="utf-8")
+
+    for fragment in fragments:
+        if fragment not in content_text:
+            errors.append(
+                f"{content_path}: delivery content missing: "
+                f"{fragment!r}"
+            )
 
 
 if errors:
