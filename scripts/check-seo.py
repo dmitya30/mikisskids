@@ -154,6 +154,34 @@ else:
     if "internal;" not in nginx_text:
         errors.append("Nginx snippet: internal directive is missing")
 
+    expected_historical_routes = {
+        "/suitcase":
+            "return 301 https://mikisskids.ru/travel-seat/;",
+        "/tproduct/713100056932-kreslo-mikisskids":
+            "return 301 https://mikisskids.ru/chair/;",
+        "/public_offer":
+            "return 301 https://mikisskids.ru/legal/offer/;",
+        "/agreement":
+            "return 301 https://mikisskids.ru/legal/agreement/;",
+        "/personal_data":
+            "return 301 https://mikisskids.ru/legal/consent/;",
+        "/success_payment":
+            "return 410;",
+    }
+
+    for old_url, directive in expected_historical_routes.items():
+        location = f"location = {old_url}"
+
+        if location not in nginx_text:
+            errors.append(
+                f"Nginx snippet: historical location missing: {old_url}"
+            )
+
+        if directive not in nginx_text:
+            errors.append(
+                f"Nginx snippet: historical action missing: {old_url}"
+            )
+
 
 class MediaDimensionParser(HTMLParser):
     def __init__(self, source):
