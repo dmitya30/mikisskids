@@ -329,15 +329,30 @@ else:
 
     required_robots_directives = (
         "User-agent: *",
-        "Disallow: /",
-        "Allow: /sitemap.xml",
+        "Disallow:",
         "Sitemap: https://mikisskids.ru/sitemap.xml",
     )
+    robots_lines = {
+        line.strip()
+        for line in robots_text.splitlines()
+        if line.strip()
+    }
 
     for directive in required_robots_directives:
-        if directive not in robots_text:
+        if directive not in robots_lines:
             errors.append(
                 f"robots.txt: missing directive: {directive}"
+            )
+
+    forbidden_robots_directives = (
+        "Disallow: /",
+        "Allow: /sitemap.xml",
+    )
+
+    for directive in forbidden_robots_directives:
+        if directive in robots_lines:
+            errors.append(
+                f"robots.txt: obsolete directive present: {directive}"
             )
 
 sitemap_path = Path("sitemap.xml")
