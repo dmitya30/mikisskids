@@ -234,3 +234,15 @@
 - Коммит `83d337f` развёрнут командой
   `sudo /usr/local/sbin/deploy-mikisskids`.
 - Deploy, `nginx -t` и production smoke-check прошли успешно.
+
+## 29.07.2026 - открытие индексации
+
+- Финальные SEO-, links-, consent- и webhook-проверки прошли.
+- Коммитом `a76476c` удалён общий запрет `Disallow: /`.
+- Коммит развёрнут через `sudo /usr/local/sbin/deploy-mikisskids`.
+- Production `robots.txt` проверен по HTTPS.
+- Sitemap в Яндекс Вебмастере: `OK`, 5 URL.
+- Пять публичных страниц поставлены в очередь на переобход.
+- На Tilda опубликованы только `payment-mvp` и `/payment-success`.
+- Устаревшие страницы Tilda сняты с публикации.
+- Серверное событие Метрики пока не внедряется.
