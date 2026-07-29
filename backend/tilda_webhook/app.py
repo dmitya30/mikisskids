@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import hmac
 import json
 import os
@@ -224,30 +225,65 @@ def save_order(
     payload: dict[str, object],
     source_url: str = "",
 ) -> bool:
-    tranid = validate_text(
-        first_value(payload, "tranid"),
-        "tranid",
-        128,
-    )
-
-    if not tranid:
-        raise ValueError("tranid is required")
-
-    formid = validate_text(
-        first_value(payload, "formid"),
-        "formid",
-        128,
-    )
-
     tilda_order_id = validate_text(
         first_value(
             payload,
             "payment.orderid",
             "payment[orderid]",
             "orderid",
+            "tilda_orderid",
+            "tilda_order_id",
         ),
         "tilda_order_id",
         256,
+    )
+
+    payment_id = validate_text(
+        first_value(
+            payload,
+            "paymentid",
+            "payment_id",
+            "payment.id",
+            "payment[id]",
+        ),
+        "payment_id",
+        256,
+    )
+
+    tranid = first_value(payload, "tranid")
+
+    if not tranid:
+        if tilda_order_id:
+            fallback_type = "tilda-order"
+            fallback_value = tilda_order_id
+        elif payment_id:
+            fallback_type = "payment"
+            fallback_value = payment_id
+        else:
+            raise ValueError(
+                "stable order identifier is required"
+            )
+
+        digest = hashlib.sha256(
+            (
+                fallback_type
+                + "\0"
+                + fallback_value
+            ).encode("utf-8")
+        ).hexdigest()
+
+        tranid = f"{fallback_type}:{digest}"
+
+    tranid = validate_text(
+        tranid,
+        "tranid",
+        128,
+    )
+
+    formid = validate_text(
+        first_value(payload, "formid"),
+        "formid",
+        128,
     )
 
     product_text = validate_text(
@@ -514,7 +550,12 @@ class WebhookHandler(BaseHTTPRequestHandler):
                 payload,
                 source_url,
             )
-        except ValueError:
+        except ValueError as error:
+            print(
+                f"webhook rejected: {error}",
+                file=sys.stderr,
+                flush=True,
+            )
             self.send_plain(400, "Bad Request")
             return
 

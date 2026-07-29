@@ -124,11 +124,76 @@ class WebhookTests(unittest.TestCase):
 
         self.assertEqual(count, 1)
 
-    def test_tranid_is_required(self):
+    def test_tilda_order_id_is_fallback(self):
         payload = dict(self.payload)
         payload.pop("tranid")
 
-        with self.assertRaises(ValueError):
+        first = save_order(
+            self.db_path,
+            payload,
+        )
+        second = save_order(
+            self.db_path,
+            payload,
+        )
+
+        self.assertTrue(first)
+        self.assertFalse(second)
+
+        connection = sqlite3.connect(
+            self.db_path
+        )
+        row = connection.execute(
+            """
+            SELECT
+                tranid,
+                tilda_order_id,
+                COUNT(*)
+            FROM orders
+            """
+        ).fetchone()
+        connection.close()
+
+        self.assertTrue(
+            row[0].startswith("tilda-order:")
+        )
+        self.assertEqual(row[1], "order-500")
+        self.assertEqual(row[2], 1)
+
+    def test_payment_id_is_fallback(self):
+        payload = dict(self.payload)
+        payload.pop("tranid")
+        payload.pop("payment[orderid]")
+        payload["paymentid"] = "payment-700"
+
+        created = save_order(
+            self.db_path,
+            payload,
+        )
+
+        self.assertTrue(created)
+
+        connection = sqlite3.connect(
+            self.db_path
+        )
+        tranid = connection.execute(
+            "SELECT tranid FROM orders"
+        ).fetchone()[0]
+        connection.close()
+
+        self.assertTrue(
+            tranid.startswith("payment:")
+        )
+
+    def test_stable_identifier_is_required(self):
+        payload = dict(self.payload)
+        payload.pop("tranid")
+        payload.pop("payment[orderid]")
+
+        with self.assertRaisesRegex(
+            ValueError,
+            "stable order identifier is required",
+        ):
             save_order(
                 self.db_path,
                 payload,
