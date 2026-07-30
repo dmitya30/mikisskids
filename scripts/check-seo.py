@@ -25,7 +25,7 @@ targets = {
         "currency": "RUB",
         "url": "https://mikisskids.ru/travel-seat/",
         "availability": "https://schema.org/PreOrder",
-        "availability_starts": "2026-08-17",
+        "availability_starts": "2026-08-31",
     },
 }
 
@@ -422,22 +422,22 @@ delivery_content_requirements = {
     ),
     Path("travel-seat/index.html"): (
         "https://schema.org/PreOrder",
-        '"availabilityStarts": "2026-08-17"',
+        '"availabilityStarts": "2026-08-31"',
         "<strong>Предзаказ.</strong>",
-        "до 17 августа 2026 года",
+        "до 31 августа 2026 года",
         "1 рабочего дня после поступления",
     ),
     Path("delivery/index.html"): (
         "Доставка по России включена",
         "в течение часа",
         "1 рабочего дня после оплаты",
-        "17 августа 2026 года",
+        "31 августа 2026 года",
         "ПВЗ СДЭК, Ozon или Wildberries",
     ),
     Path("legal/offer/index.html"): (
         "Редакция от 28 июля 2026 года.",
         "Доставка осуществляется по России и включена",
-        "не позднее 17 августа 2026 года",
+        "не позднее 31 августа 2026 года",
         "одного рабочего дня после оплаты",
         "СДЭК, Ozon или Wildberries",
     ),
