@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+SOURCE="/var/www/mikiss/data/repos/mikisskids/deploy/nginx-site.conf"
+TARGET="/etc/nginx/fastpanel2-sites/mikiss/mikisskids.ru.includes"
+BACKUP_DIR="/var/backups/mikisskids/nginx"
+
+test "$(id -u)" -eq 0 || {
+    echo "ERROR: run as root"
+    exit 1
+}
+
+test -f "$SOURCE"
+test -f "$TARGET"
+
+for fragment in \
+    "location ^~ /api/tilda/paid/" \
+    "proxy_pass http://127.0.0.1:8091;" \
+    "error_page 404 /404.html;" \
+    "location = /suitcase" \
+    "location = /success_payment"
+do
+    grep -qF "$fragment" "$SOURCE" || {
+        echo "ERROR: source fragment missing: $fragment"
+        exit 1
+    }
+done
+
+if cmp -s "$SOURCE" "$TARGET"; then
+    echo "OK: Nginx include is already current"
+else
+    install -d -m 750 "$BACKUP_DIR"
+    BACKUP="$BACKUP_DIR/mikisskids.ru.includes.$(
+        date -u +%Y%m%dT%H%M%SZ
+    )"
+
+    cp -a "$TARGET" "$BACKUP"
+    TMP="$(mktemp "${TARGET}.tmp.XXXXXX")"
+
+    cleanup() {
+        rm -f "$TMP"
+    }
+    trap cleanup EXIT
+
+    cat "$SOURCE" > "$TMP"
+    chown --reference="$TARGET" "$TMP"
+    chmod --reference="$TARGET" "$TMP"
+    mv "$TMP" "$TARGET"
+
+    if ! nginx -t; then
+        cp -a "$BACKUP" "$TARGET"
+        nginx -t
+        echo "ERROR: rollback completed"
+        exit 1
+    fi
+
+    systemctl reload nginx
+    echo "OK: Nginx include installed"
+    echo "Backup: $BACKUP"
+fi
+
+HEADERS="$(mktemp)"
+trap 'rm -f "$HEADERS"' EXIT
+
+CODE="$(
+    curl -sS \
+        -D "$HEADERS" \
+        -o /dev/null \
+        -w '%{http_code}' \
+        -X POST \
+        https://mikisskids.ru/api/tilda/paid/not-a-real-secret
+)"
+
+test "$CODE" = "404"
+grep -qi '^content-type: text/plain' "$HEADERS"
+
+systemctl is-active --quiet tilda-webhook.service
+
+echo "OK: webhook route reaches the application"

@@ -141,7 +141,7 @@ else:
     if error_text.count("<h1") != 1:
         errors.append("404.html: expected exactly one H1")
 
-nginx_path = Path("deploy/nginx-static-errors.conf")
+nginx_path = Path("deploy/nginx-site.conf")
 
 if not nginx_path.is_file():
     errors.append("deploy/nginx-static-errors.conf: file is missing")
@@ -153,6 +153,19 @@ else:
 
     if "internal;" not in nginx_text:
         errors.append("Nginx snippet: internal directive is missing")
+
+    expected_webhook_fragments = (
+        "location ^~ /api/tilda/paid/",
+        "proxy_pass http://127.0.0.1:8091;",
+        "location ^~ /api/",
+        "access_log off;",
+    )
+
+    for fragment in expected_webhook_fragments:
+        if fragment not in nginx_text:
+            errors.append(
+                f"Nginx snippet: webhook fragment missing: {fragment}"
+            )
 
     expected_historical_routes = {
         "/suitcase":
