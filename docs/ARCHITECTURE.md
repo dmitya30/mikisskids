@@ -1,7 +1,7 @@
 # Архитектура MIKISSKIDS
 
-**Статус:** актуальная архитектура MVP  
-**Дата:** 29.07.2026
+**Статус:** российская архитектура актуальна; международная исследуется
+**Дата:** 03.08.2026
 
 ## Компоненты
 
@@ -120,3 +120,123 @@ deploy, docs и scripts, выполняет `nginx -t` и production smoke-check
 Изменения backend требуют обновления репозитория VPS и перезапуска
 соответствующего systemd-сервиса. Документационные коммиты не требуют
 публикации в production webroot.
+## Обновление российского контура от 03.08.2026
+
+Российская архитектура сохраняется:
+
+```text
+mikisskids.ru на VPS
+    → pay.mikisskids.ru на Tilda
+    → Tilda ST100
+    → Т-Банк
+    → Tilda webhook
+    → Nginx
+    → tilda-webhook.service
+    → SQLite
+```
+
+Каноническая Nginx-конфигурация хранится в:
+
+```text
+deploy/nginx-site.conf
+```
+
+Устанавливается скриптом:
+
+```text
+deploy/install-nginx-site-config
+```
+
+Скрипт создаёт backup, выполняет `nginx -t`, reload и проверяет
+webhook route.
+
+Production include нельзя заменять отдельным частичным фрагментом.
+Такая замена ранее удалила webhook location и вызвала HTTP 404.
+
+SQLite является внутренней копией заявок и не является банковской,
+бухгалтерской или фискальной системой.
+
+## Международная архитектура — discovery
+
+Окончательное решение не принято.
+
+### Вариант A — VPS storefront + hosted checkout
+
+```text
+international storefront on VPS
+    → external hosted checkout
+    → payment provider
+```
+
+Проверить:
+
+- передачу корзины и вариантов;
+- каталог и остатки;
+- EUR/USD;
+- налоги;
+- доставку;
+- refunds;
+- webhooks;
+- PCI scope;
+- KYC;
+- order management;
+- ручную синхронизацию.
+
+### Вариант B — VPS storefront + Shopify commerce backend
+
+```text
+international storefront on VPS
+    → Shopify Storefront API / supported sales channel
+    → Shopify cart and checkout
+    → Shopify Payments or supported provider
+```
+
+Проверить:
+
+- Buy Button;
+- Storefront API;
+- headless limitations;
+- Shopify Markets;
+- checkout branding;
+- inventory;
+- translations;
+- webhooks;
+- fees;
+- объём собственной разработки;
+- стоимость дальнейшего сопровождения.
+
+### Вариант C — полный Shopify storefront
+
+```text
+international domain
+    → Shopify storefront
+    → Shopify Markets
+    → Shopify checkout
+    → payment provider
+```
+
+Проверить:
+
+- перенос фирменного дизайна;
+- SEO;
+- CWV;
+- темы и приложения;
+- ограничения checkout;
+- владение данными;
+- vendor lock-in;
+- стоимость эксплуатации;
+- необходимость отказа от VPS для международной части.
+
+## Международные URL
+
+Кандидаты:
+
+- `mikisskids.com`;
+- `en.mikisskids.ru`;
+- `mikisskids.ru/en/`;
+- отдельный международный домен.
+
+Выбор зависит от продавца, рынков, SEO, платежей и возможных
+юрисдикционных ограничений.
+
+Полный переход storefront на Shopify не утверждён.
