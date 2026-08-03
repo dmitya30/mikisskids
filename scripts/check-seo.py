@@ -431,7 +431,7 @@ delivery_content_requirements = {
         "https://schema.org/InStock",
         "<strong>В наличии.</strong>",
         "1 рабочего дня после оплаты",
-        "до ПВЗ СДЭК, Ozon",
+        "до ПВЗ СДЭК",
     ),
     Path("travel-seat/index.html"): (
         "https://schema.org/PreOrder",
@@ -445,14 +445,14 @@ delivery_content_requirements = {
         "в течение часа",
         "1 рабочего дня после оплаты",
         "31 августа 2026 года",
-        "ПВЗ СДЭК, Ozon или Wildberries",
+        "ПВЗ СДЭК",
     ),
     Path("legal/offer/index.html"): (
         "Редакция от 28 июля 2026 года.",
         "Доставка осуществляется по России и включена",
         "не позднее 31 августа 2026 года",
         "одного рабочего дня после оплаты",
-        "СДЭК, Ozon или Wildberries",
+        "СДЭК",
     ),
 }
 
