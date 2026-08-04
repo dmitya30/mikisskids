@@ -1,117 +1,117 @@
 # Roadmap V2
 
-**Статус:** draft  
-**Дата:** 03.08.2026
+**Статус:** утверждён для начала Shopify Foundation
+**Дата:** 04.08.2026
 
-## Gate 0 — документация
+## Gate 0 — architecture decision
 
-- синхронизировать статус;
-- сохранить гипотезы;
-- зафиксировать вопросы;
-- исключить преждевременное решение по Shopify.
+Завершено:
 
-## Gate 1 — discovery
+- российский контур сохраняется;
+- для `mikisskids.com` выбран полный Shopify storefront;
+- подтверждены EU, USA, EUR и USD;
+- подтверждён каталог около 10 SKU;
+- владельцы самостоятельно регистрируют Shopify и домен;
+- разработчик получает отдельный staff/collaborator access;
+- compliance применяется по SKU и рынку.
 
-Результат:
+## Stage 0 — owner setup
 
-- сведения о продавце и банковском счёте;
-- полный товарный master data;
-- рынки;
-- логистика;
-- compliance matrix;
-- shortlist платёжных платформ.
+Владельцы:
 
-Без результата Gate 1 разработка международного checkout не начинается.
+- выбирают постоянного account owner;
+- выбирают owner-controlled email;
+- создают Shopify-аккаунт;
+- регистрируют `mikisskids.com`;
+- оплачивают Shopify и домен;
+- включают MFA;
+- сохраняют recovery codes;
+- приглашают разработчика.
 
-## Gate 2 — архитектурное решение
+По запросу предоставляется отдельная пошаговая инструкция.
 
-Сравнить:
+## Stage 1 — Shopify Foundation
 
-1. VPS + hosted checkout;
-2. VPS + Shopify backend/checkout;
-3. полный Shopify.
+- закрытый storefront под паролем;
+- тема с приоритетом скорости;
+- фирменные цвета и типографика;
+- навигация;
+- EU и USA Markets;
+- EUR и USD;
+- базовые страницы;
+- consent и analytics foundation.
 
-Критерии:
+## Stage 2 — полный каталог
 
-- юридическая доступность;
-- KYC;
-- платежи EUR/USD;
-- каталог и остатки;
-- налоги;
-- доставка;
-- возвраты;
-- SEO;
-- CWV;
-- аналитика;
-- безопасность;
-- стоимость разработки;
-- стоимость эксплуатации;
-- vendor lock-in;
-- объём ручной синхронизации.
+Расчётный объём:
 
-Результат: ADR в `DECISIONS.md`.
+- около 10 SKU;
+- до 30 вариантов;
+- категории и коллекции;
+- варианты и цвета;
+- цены;
+- остатки;
+- наличие и предзаказ;
+- фотографии и видео;
+- размеры, вес и материалы;
+- инструкции и предупреждения;
+- related products;
+- SEO metadata.
 
-## Stage 1 — российский каталог
+## Stage 3 — content и legal
 
-Предварительно:
+- английская адаптация;
+- About;
+- Contact;
+- FAQ;
+- Shipping Policy;
+- Return & Refund Policy;
+- Privacy Policy;
+- Cookie Policy;
+- Terms of Sale;
+- Warranty;
+- EU withdrawal information;
+- сведения о производителе и economic operator;
+- product safety information.
 
-- master data;
-- категории;
-- `/catalog/`;
-- товарные карточки;
-- варианты;
-- наличие;
-- SEO;
-- синхронизация с Tilda;
-- тесты;
-- deploy.
+Юридические тексты проверяет профильный специалист.
 
-## Stage 2 — международный storefront
+## Stage 4 — commerce
 
-Структура зависит от Gate 2.
-
-Общие задачи:
-
-- английская локализация;
-- каталог;
-- EUR/USD;
-- international delivery;
-- returns;
-- legal pages;
-- product safety;
-- analytics and consent;
-- SEO;
-- staging.
-
-## Stage 3 — commerce
-
-- KYC/KYB;
-- payment provider;
-- taxes;
+- Shopify Payments или совместимый provider;
+- KYC/KYB владельцами;
 - shipping zones;
+- VAT settings;
+- DDP/DAP;
+- HS codes и country of origin;
 - test orders;
 - refunds;
-- chargeback process;
-- order notifications;
-- webhooks;
-- operational instructions.
+- email notifications;
+- order lifecycle.
 
-## Stage 4 — launch
+## Stage 5 — QA и запуск
 
-- compliance sign-off по каждому SKU;
-- QA;
+- desktop и mobile;
+- Safari, Chrome и Firefox;
 - accessibility;
-- CWV;
-- security review;
-- production launch;
-- post-launch monitoring.
+- SEO;
+- sitemap;
+- structured data;
+- consent;
+- security и access review;
+- backup/export;
+- инструкции владельцам;
+- запуск разрешённых SKU и рынков;
+- 7 дней гарантийного сопровождения.
 
-## Предварительные сроки
+## Сроки
 
-- discovery: 2–4 рабочих дня;
-- российский каталог: 4–7 рабочих дней;
-- international storefront: 7–12 рабочих дней;
-- payments, shipping and QA: 3–5 рабочих дней;
-- общая разработка: 15–25 рабочих дней.
+При своевременной передаче данных и доступов:
 
-Внешние проверки и сертификация в срок разработки не входят.
+- Shopify staging: 5–7 рабочих дней;
+- возможный запуск разрешённых SKU: 7–10 рабочих дней.
+
+Внешние KYC, банк, сертификация, VAT/EORI/OSS, юридическая проверка,
+перевозчики и 3PL в срок разработки не входят.
+
+Один неподготовленный SKU или рынок не блокирует остальной storefront.
